@@ -28,7 +28,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/manager/{id}")
     public ResponseEntity<UserResponse> findById(@PathVariable Integer id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
     }
