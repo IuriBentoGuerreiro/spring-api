@@ -25,4 +25,10 @@ public class UserController {
     public ResponseEntity<List<User>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
