@@ -1,5 +1,7 @@
 package com.iuri.spring_api.service;
 
+import com.iuri.spring_api.dto.UserRequest;
+import com.iuri.spring_api.dto.UserResponse;
 import com.iuri.spring_api.model.User;
 import com.iuri.spring_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +17,13 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserResponse save(UserRequest request) {
+        return UserResponse.convert(userRepository.save(User.convert(request)));
     }
 
     @Transactional(readOnly = true)
-    public List<User> findAll(){
-        return userRepository.findAll();
+    public List<UserResponse> findAll(){
+        return userRepository.findAll().stream().map(UserResponse::convert).toList();
     }
 
     @Transactional

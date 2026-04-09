@@ -1,6 +1,7 @@
 package com.iuri.spring_api.controller;
 
-import com.iuri.spring_api.model.User;
+import com.iuri.spring_api.dto.UserRequest;
+import com.iuri.spring_api.dto.UserResponse;
 import com.iuri.spring_api.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +18,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> save(@RequestBody User user){
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+    public ResponseEntity<UserResponse> save(@RequestBody UserRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserResponse>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
