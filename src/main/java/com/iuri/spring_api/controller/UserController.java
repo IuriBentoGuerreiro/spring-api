@@ -28,6 +28,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<UserResponse>> searchName(@RequestParam(required = false) String name){
+        return ResponseEntity.status(HttpStatus.OK).body(userService.searchName(name));
+    }
+
     @GetMapping("/manager/{id}")
     public ResponseEntity<UserResponse> findById(@PathVariable Integer id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));

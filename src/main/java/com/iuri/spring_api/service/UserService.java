@@ -4,6 +4,7 @@ import com.iuri.spring_api.dto.UserRequest;
 import com.iuri.spring_api.dto.UserResponse;
 import com.iuri.spring_api.model.User;
 import com.iuri.spring_api.repository.UserRepository;
+import com.iuri.spring_api.specification.UserSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,13 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<UserResponse> findAll() {
         return userRepository.findAll().stream().map(UserResponse::convert).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse> searchName(String name) {
+        return userRepository.findAll(UserSpecifications.filterByName(name)).stream().map(
+                UserResponse::convert
+        ).toList();
     }
 
     @Transactional(readOnly = true)
