@@ -2,6 +2,7 @@ package com.iuri.spring_api.service;
 
 import com.iuri.spring_api.dto.UserRequest;
 import com.iuri.spring_api.dto.UserResponse;
+import com.iuri.spring_api.filter.FilterName;
 import com.iuri.spring_api.model.User;
 import com.iuri.spring_api.repository.UserRepository;
 import com.iuri.spring_api.specification.UserSpecifications;
@@ -29,8 +30,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponse> searchName(String name) {
-        return userRepository.findAll(UserSpecifications.filterByName(name)).stream().map(
+    public List<UserResponse> searchName(FilterName filter) {
+        return userRepository.findAll(UserSpecifications.filterByName(filter)).stream().map(
                 UserResponse::convert
         ).toList();
     }
