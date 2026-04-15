@@ -2,6 +2,7 @@ package com.iuri.spring_api.controller;
 
 import com.iuri.spring_api.dto.UserRequest;
 import com.iuri.spring_api.dto.UserResponse;
+import com.iuri.spring_api.filter.FilterName;
 import com.iuri.spring_api.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,27 +20,27 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponse> save(@RequestBody @Valid UserRequest request){
+    public ResponseEntity<UserResponse> save(@RequestBody @Valid UserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll(){
+    public ResponseEntity<List<UserResponse>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<UserResponse>> searchName(@RequestParam(required = false) String name){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.searchName(name));
+    public ResponseEntity<List<UserResponse>> searchName(@ModelAttribute FilterName filter) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.searchName(filter));
     }
 
     @GetMapping("/manager/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable Integer id){
+    public ResponseEntity<UserResponse> findById(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Integer id, @RequestBody @Valid UserRequest request){
+    public ResponseEntity<UserResponse> update(@PathVariable Integer id, @RequestBody @Valid UserRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.update(id, request));
     }
 
