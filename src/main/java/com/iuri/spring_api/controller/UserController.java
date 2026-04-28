@@ -6,6 +6,8 @@ import com.iuri.spring_api.filter.FilterName;
 import com.iuri.spring_api.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +26,9 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(request));
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
-    }
-
     @GetMapping("/search")
-    public ResponseEntity<List<UserResponse>> searchName(@ModelAttribute FilterName filter) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.searchName(filter));
+    public ResponseEntity<Page<UserResponse>> searchName(@ModelAttribute FilterName filter, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.searchName(filter, pageable));
     }
 
     @GetMapping("/manager/{id}")

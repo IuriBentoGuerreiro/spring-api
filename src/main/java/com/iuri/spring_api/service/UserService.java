@@ -8,10 +8,10 @@ import com.iuri.spring_api.repository.UserRepository;
 import com.iuri.spring_api.specification.UserSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +25,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponse> findAll() {
-        return userRepository.findAll().stream().map(UserResponse::convert).toList();
-    }
+    public Page<UserResponse> searchName(FilterName filter, Pageable pageable) {
+        Page<User> userPage = userRepository.findAll(
+                UserSpecifications.filterByName((filter)), pageable);
 
-    @Transactional(readOnly = true)
-    public List<UserResponse> searchName(FilterName filter) {
-        return userRepository.findAll(UserSpecifications.filterByName(filter)).stream().map(
-                UserResponse::convert
-        ).toList();
+        return userPage.map(UserResponse::convert);
     }
 
     @Transactional(readOnly = true)
